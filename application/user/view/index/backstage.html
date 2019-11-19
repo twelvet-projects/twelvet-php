@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/addons/TW-IM/css/common.css">
+    <link rel="stylesheet" href="/addons/TW-IM/css/IM.css">
+    <link rel="stylesheet" href="__STATIC__/lib/font-awesome.css">
+    <title>用户中心</title>
+</head>
+
+<body>
+    <div id='IM-mini' title='TW-IM'>
+
+    </div>
+
+    <div id='IM'>
+        <div id='IM-user-move'></div>
+
+        <div id='IM-user'>
+            <div class='fa fa-close' id='IM-close'></div>
+            <div id='IM-user-name'>纸飞机</div>
+            <div id='IM-user-status'></div>
+            <input type="text" id='IM-user-sign' value='在深邃的编码世界，做一枚轻盈的纸飞机'>
+        </div>
+
+        <ul id='IM-user-tab'>
+            <li class='fa fa-user IM-this'></li>
+            <li class='fa fa-group'></li>
+            <li class='fa fa-history'></li>
+        </ul>
+
+        <ul id='IM-tab-contacts' class='IM-tab-ctn' style='display:block'>
+            <li>
+                <div>
+                    <i class='fa fa-chevron-right'></i>
+                    <span>知名人物</span>
+                    <em>( <cite>8</cite> )</em>
+                </div>
+            </li>
+            <li>
+                <span>朋友（5）</span>
+            </li>
+            <li>
+                <span>同事（10）</span>
+            </li>
+        </ul>
+        <ul class='IM-tab-ctn'></ul>
+        <ul class='IM-tab-ctn'></ul>
+
+        <ul id='IM-tool'></ul>
+
+    </div>
+
+    <div id='IM-chat'>
+        <div class='IM-chat-title'>
+            <div class='IM-chat-title-left'>
+                <img src="/addons/TW-IM/logo.jpg" class='IM-chat-title-img' title='查看详细资料'>
+                <span class='IM-chat-title-userName'>TwelveT</span>
+                <span class='IM-chat-title-userAutograph'>愚者于成，智者败智</span>
+            </div>
+
+            <div class='IM-chat-title-right'></div>
+        </div>
+
+        <div class='IM-chat-content'>
+            <ul>
+                <li :class="item.belong == 'self' ? 'IM-chat-content-self' : 'IM-chat-content-other' "
+                    v-for='item in message'>
+                    <div class='IM-chat-content-user'>
+                        <img src="/addons/TW-IM/logo.jpg">
+                        <cite v-if='item.belong == "self"'>
+                            <i>{{item.time}}</i>
+                            {{item.name}}
+                        </cite>
+
+                        <cite v-else>
+                            {{item.name}}
+                            <i>{{item.time}}</i>
+                        </cite>
+                    </div>
+
+                    <div class='IM-chat-content-text'>
+                        {{item.content}}
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class='IM-chat-input'>
+            <div class='Im-chat-input-tool'></div>
+            <textarea class='Im-chat-input-textarea' @keydown.enter='sendInfo' v-model='info'></textarea>
+            <div class='Im-chat-input-send'>
+                <ul>
+                    <li>
+                        <button>关闭</button>
+                    </li>
+                    <li>
+                        <button>发送</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script type='text/javascript' src='__STATIC__/lib/layui/layui.js'></script>
+    <script type="text/javascript" src='/addons/TW-IM/js/vue.js'></script>
+    <script type="text/javascript" src='/addons/TW-IM/js/axios.js'></script>
+    <script type="text/javascript" src='/addons/TW-IM/js/TW-IM.js'></script>
+</body>
+
+
+</html>

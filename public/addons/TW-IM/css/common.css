@@ -1,0 +1,17 @@
+img {
+    border: none;
+    vertical-align: middle;
+}
+
+#IM-mini {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-family: 微软雅黑;
+    z-index: 9999;
+    cursor: pointer;
+    background-image: url(../logo.jpg)
+}

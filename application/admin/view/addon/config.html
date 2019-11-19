@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <title>配置插件信息</title>
+    <link rel="stylesheet" href="__STATIC__/lib/twelvet.css">
+    <link rel="stylesheet" href="__STATIC__/lib/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/lib/font-awesome.css" />
+    <style>
+        .layui-form-switch{margin:0}
+        .col-max{padding: 15px}
+        .card{background:#D9EDF7;color:#3a87ad;border:0}
+        .table{width:100%;border-collapse: collapse;border-spacing: 0;color:#666;border:1px solid #eee}
+        td, th{border:1px solid #e6e6e6}
+        .table>thead>tr{text-align: left;font-size:13px;background:#f2f2f2}
+        th{padding:15px 8px 15px 8px}
+        .table>tbody>tr>td{padding: 8px}
+        .table>tbody>tr:nth-child(2n+1){background: #F8F8F8}
+        .table>tbody>tr:hover{background:#f2f2f2}
+        .table>thead>tr>th:nth-child(1), .table>tbody>tr>td:nth-child(1){text-align:center}
+        /* 数组参数列表样式 */
+        .fields>dd { display: block;margin: 5px 0;}
+        .fields>dd>span { width: 110px;display: inline-block;text-decoration: none;font-weight: bold;}
+        .fields>dd>input {display:inline-block;width: auto}
+        .form-row>.col{padding-left:7px;padding-right:7px}
+        /* 上传文件预览样式 */
+        .img-preview{width:100%}
+        .form-row>.form-control{width: 60%}
+        @media(max-width:768px){.form-row>.form-control{width: 100%}}
+        .form-row>.form-control,.form-row>button{margin:0 5px}
+
+        .img-preview>li{margin-top:15px;float:left;padding:0 0 0 7px}
+        .img-preview>li>a:first-child{display:block;height:100px;padding: 4px;margin-bottom: 8px;line-height: 1.42857143;background-color: #fff;border: 1px solid #ddd;border-radius: 3px;-webkit-transition: border 0.2s ease-in-out;-o-transition: border 0.2s ease-in-out;transition: border 0.2s ease-in-out;}
+        .img-preview>li>a:first-child:hover{border: 1px solid #1AB394}
+        .img-preview>li>a>img{max-width:100%;height:90px;object-fit: cover;margin: auto auto}
+        .img-preview>li>a{width:100%;color:#fff;padding:3px 5px !important}
+        .i-50{min-width:50%}
+    </style>
+</head>
+<body>
+    <form action="javascript:void(0)" method="post" id='config-form' class='container layui-form'>
+        <div class='row'>
+            <div class='col-max'>
+                {if $addon.tips}
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">{$addon.tips.title}</h2>
+                        <div class="card-text">
+                            {$addon.tips.value|raw}
+                        </div>
+                    </div>
+                </div>
+                {/if}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th width="15%">配置名称</th>
+                        <th width="85%">配置值</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" width="85%" style='padding:10px 0;text-align:center'>
+                                <button type="submit" class="btn btn-twelvet btn-preservation">保存配置</button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {foreach $addon.config as $item}
+                        <tr>
+                            <td>{$item.title}</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-sm-8 col-xs-12">
+                                        {switch $item.type}
+                                        {case string}
+                                        <input {$item.extend} type="text" name="twelvet[{$item.name}]" value="{$item.value}" class="form-control" data-rule="{$item.rule}" title="{$item.tip}"/>
+                                        {/case}
+                                        {case text}
+                                        <textarea {$item.extend} name="twelvet[{$item.name}]" class="form-control" data-rule="{$item.rule}" rows="8" title="{$item.tip}">{$item.value}</textarea>
+                                        {/case}
+                                        {case array}
+                                        <dl class="fields" data-name="{$item.name}">
+                                            <dd>
+                                                <span>键名</span>
+                                                <span>值</span>
+                                            </dd>
+                                            <dd><button href="javascript:;" class="btn btn-twelvet append"><i class="fa fa-plus"></i>追加</button></dd>
+                                            <textarea name="twelvet[{$item.name}]" cols="30" rows="5" autocomplete="off" style='display:none'>{$item.value|json_encode}</textarea>
+                                        </dl>
+                                        {/case}
+                                        {case datetime}
+                                        <input {$item.extend} type="text" name="twelvet[{$item.name}]" value="{$item.value}" class="form-control datetimepicker" title="{$item.tip}" data-rule="{$item.rule}"/>
+                                        {/case}
+                                        {case number}
+                                        <input {$item.extend} type="number" name="twelvet[{$item.name}]" value="{$item.value}" class="form-control" title="{$item.tip}" data-rule="{$item.rule}"/>
+                                        {/case}
+                                        {case checkbox}
+                                        {foreach name="item.content" item="vo"}
+                                        <input id="twelvet[{$item.name}][]-{$key}" title="{$vo}" name="twelvet[{$item.name}][]" type="checkbox" value="{$key}" title="{$item.tip}" {in name="key" value="$item.value" }checked{/in} />
+                                        {/foreach}
+                                        {/case}
+                                        {case radio}
+                                        {foreach name="item.content" item="vo"}
+                                        <input title='{$vo}' id="twelvet[{$item.name}]-{$key}" name="twelvet[{$item.name}]" type="radio" value="{$key}" title="{$item.tip}" {in name="key" value="$item.value" }checked{/in} />
+                                        {/foreach}
+                                        {/case}
+                                        {case value="select"}
+                                        <select {$item.extend} name="twelvet[{$item.name}]{$item.type=='selects'?'[]':''}" class="form-control selectpicker" title="{$item.tip}">
+                                            {foreach name="item.content" item="vo"}
+                                            <option value="{$key}" {in name="key" value="$item.value" }selected{/in}>{$vo}</option>
+                                            {/foreach}
+                                        </select>
+                                        {/case}
+                                        {case value="image" break="0"}{/case}
+                                        {case value="images"}
+                                        <div class='form-row'>
+                                            <input id="img-i-{$item.name}" class="form-control thumbnail {$item.type=='image'?'img-thumbnail':'img-thumbnails'}" name="twelvet[{$item.name}]" type="text" value="{$item.value}" data-img-type="{$item.type=='image'?'image':'images'}">
+                                            <button type="button" id="manage-{$item.name}" class="btn btn-twelvet {$item.type=='image'?'img-upload':'img-uploads'}" lay-data="{id:'#img-i-{$item.name}'}" data-multiple="{$item.type=='image'?'false':'true'}" data-preview-id="p-{$item.name}"><i class="fa fa-upload"></i> 上传</button>
+                                            <button type="button" id="manage-{$item.name}" class="btn btn-danger manage" data-input-id='img-i-{$item.name}' data-preview-id="p-{$item.name}"><i class="fa fa-upload"></i> 管理</button>
+                                            <ul class="img-preview" id="img-u-{$item.name}"></ul>
+                                        </div>
+                                        {/case}
+                                        {case value="file" break="0"}{/case}
+                                        {case value="files"}
+                                        <div class='form-row'>
+                                            <div class="col i-50">
+                                                <input id="c-{$item.name}" class="form-control" name="twelvet[{$item.name}]" type="text" value="{$item.value}" title="{$item.tip}">
+                                            </div>
+                                            <div class='col'>
+                                                <button type="button" id="manage-{$item.name}" class="btn btn-twelvet manage" data-input-id="c-{$item.name}" data-multiple="{$item.type=='file'?'false':'true'}"><i class="fa fa-upload"></i> Upload</button>
+                                            </div>
+                                        </div>
+                                        {/case}
+                                        {case bool}
+                                        <input id="twelvet[{$item.name}]-yes" name="twelvet[{$item.name}]" type="radio" value="1" {$item.value?'checked':''} title='开启' />
+                                        <input id="twelvet[{$item.name}]-no" name="twelvet[{$item.name}]" type="radio" value="0" {$item.value?'':'checked'} title='关闭' />
+                                        {/case}
+                                        {default /}{$item.value}
+                                        {/switch}
+                                    </div>
+                                </div>
+                
+                            </td>
+                        </tr>
+                        {/foreach}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+    <script type='text/javascript' src='__STATIC__/lib/jquery-3.3.1.js'></script>
+    <script type='text/javascript' src='__STATIC__/lib/layui/layui.js'></script>
+    <script type='text/javascript' src='__ADMIN__/addon/config.js'></script>
+    <script>
+        //加载layui扩展库
+        layui.config({
+            base: '__STATIC__/lib/layui/extends'
+        }).extend({
+            notice: '/notice/notice'
+        });
+    </script>
+</body>
+</html>

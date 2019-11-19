@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="__STATIC__/lib/layui/css/layui.css">
+    <title>静态配置文件管理</title>
+</head>
+<body>
+    <table id="manage" lay-filter="manage"></table>
+
+    <script type="text/html" id="drTool">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="deletes"><i class='fa fa-upload'></i>批量删除</button>
+            <button class="layui-btn layui-btn-sm" lay-event="selects"><i class='fa fa-upload'></i>批量选择</button>
+        </div>                                                                                                                                                                                              
+    </script>
+
+    <script type="text/html" id="preview">
+        <a href="{{d.preview}}" target='_blank'>
+            <img src="{{d.preview}}" alt="{{d.preview}}" title='{{d.preview}}'>
+        </a>
+    </script>
+
+    <script type="text/html" id="operation">
+        <a class="layui-btn layui-btn-xs" lay-event="select">选择</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+    </script>
+
+    <script type='text/javascript' src='__STATIC__/lib/jquery-3.3.1.js'></script>
+    <script type='text/javascript' src='__STATIC__/lib/layui/layui.js'></script>
+    <script>
+        //加载layui扩展库
+        layui.config({
+            base: '__STATIC__/lib/layui/extends'
+        }).extend({
+            notice: '/notice/notice'
+        });
+        layui.use(['table', 'layer', 'notice'], function(){
+            var layer = layui.layer,
+                table = layui.table,
+                notice = layui.notice,
+                index = parent.layer.getFrameIndex(window.name); //获取iframe窗口唯一索引
+            table.render({
+                elem: '#manage',
+                url: './{$name}',
+                toolbar: '#drTool',
+                cellMinWidth: 200,
+                cols: [[
+                    {type: 'checkbox'},
+                    {field:'preview', title:'预览图', templet: '#preview', align: 'center'},
+                    {field:'theme', title:'文件名', align: 'center'},
+                    {field:'type', title:'文件类型', align: 'center'},
+                    {field:'time', title:'文件时间', align: 'center'},
+                    {title: '操作', toolbar: '#operation', width: 150, align: 'center'}
+                ]]
+            })
+            //定义执行删除方法
+            var del = function(data){
+                layer.confirm('确定删除吗', function(item){
+                    //发送ajax删除
+                    $.ajax({
+                        url : '{:url("drop", ["name" => $name])}',
+                        type : 'post',
+                        data : {'fileName': data},
+                        dataType : 'json',
+                        beforeSend : function(){
+                            loading = layer.load(0);
+                        },
+                        success : function(result){
+                            //关闭加载动画
+                            layer.close(loading);
+                            //关闭confirm
+                            layer.close(item);
+                            if(result.state){
+                                //提示删除信息
+                                notice.success(result.msg);
+                                //重载数据表
+                                table.reload('manage', {
+                                    url: './{$name}'
+                                });
+                            }else{
+                                notice.error(result.msg);
+                            }
+                            
+                        }
+                    });
+                })
+            };
+            //监听行工具
+            table.on('toolbar(manage)', function(o){
+                //获取数据
+                var datas = table.checkStatus(o.config.id).data;
+                var dataTheme = [];
+                var dataUrl = [];
+                $.each(datas, function(i , v){
+                    dataTheme.push(v.theme);
+                    dataUrl.push(v.preview)
+                })
+                switch(o.event){
+                    case 'deletes':
+                        //执行删除方法
+                        del(dataTheme);
+                        break;
+                    case 'selects' :
+                        //判断是否单图模式
+                        if(parentInput.data('img-type') == 'image'){
+                            notice.info('单文件下不允许使用此功能');
+                        }else{
+                            var inputData = parentInput.val();
+                            //判断是否没有数据，赋值数据
+                            if(inputData == ''){
+                                parentInput.val(dataUrl).trigger("change");
+                            }else{
+                                parentInput.val(inputData + ',' + dataUrl).trigger("change");
+                            }
+                            //关闭窗口
+				            parent.layer.close(index);
+                        }
+                        
+                        break;
+                }
+            })
+            //监听操作栏
+            table.on('tool(manage)', function(o, event){
+                var data = o.data;
+                switch(o.event){
+                    case 'select':
+                        //判断是否单图模式
+                        if(parentInput.data('img-type') == 'image'){
+                            //重新赋值，并触发change
+                            parentInput.val(data.preview).trigger("change");
+                        }else{
+                            var inputData = parentInput.val();
+                            //判断是否没有数据，赋值数据
+                            if(inputData == ''){
+                                parentInput.val(data.preview).trigger("change");
+                            }else{
+                                parentInput.val(inputData + ',' + data.preview).trigger("change");
+                            }
+                        }
+                        //关闭窗口
+				        parent.layer.close(index);
+                        break;
+                    case 'delete':
+                        //执行删除方法
+                        del([data.theme]);
+                        break; 
+                }
+            })
+        })
+    </script>
+</body>
+</html>

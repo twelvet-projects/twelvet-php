@@ -1,0 +1,51 @@
+<nav class="navbar-side" role='navigation' id='side-right' data-switch='on'>
+    <div id='slim-right'>
+        <div id='wap-nav'>
+            <i class='fa fa-times-circle'></i>
+        </div>
+        <!-- 账号资料开始 -->
+        <div class='profile-ctn'>
+            <div class="dropdown">
+                <span><img alt="portrait" class="img-circle" width='64px' height="64px"
+                        src="__STATIC__/logo.png" /></span>
+                <a href="javascript:;" id="info-label" data-toggle="dropdown">
+                    <span class="d-block m-t-xs"><strong class="font-bold">TwelveT</strong></span>
+                    <span class='text-muted'>超级管理员<i class="fa fa-angle-down" aria-hidden="true"></i></span>
+                </a>
+
+                <div class="dropdown-menu" t-label="info-label">
+                    <a class="dropdown-item" href="form_avatar.html">修改头像</a>
+                    <a class="dropdown-item addtabs" href="javascript:;" data-url="{:url('/user/index')}">个人资料</a>
+                    <a class="dropdown-item" href="contacts.html">联系我们</a>
+                    <a class="dropdown-item" href="mailbox.html">信箱</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="logout.html"><i class='fa fa-reply-all'></i> 安全退出</a>
+                </div>
+            </div>
+        </div>
+        <!-- 账号资料结束 -->
+        <ul id='side-menu'>
+            {$menu|raw}
+
+            <!--以下连接可自行修改（建议为twelvet留下一个连接）-->
+            <li id="related-links">相关连接</li>
+            <!-- <li data-rel='external'>
+                <a href="https://doc.twelvet.net" target="_blank">
+                    <i class="fa fa-list text-red" style='color:#e74c3c'>
+                    </i> <span>开发文档</span>
+                </a>
+            </li>
+            <li data-rel='external'>
+                <a href="https://forum.twelvet.net" target="_blank">
+                    <i class="fa fa-comment text-yellow" style='color:#f39c12'></i>
+                    <span>交流社区</span>
+                </a>
+            </li> -->
+            <li data-rel='external'><a href="https://jq.qq.com/?_wv=1027&k=5pN2BG8" target="_blank">
+                    <i class="fa fa-qq text-aqua" style='color:#13a6b1'></i>
+                    <span>交流群</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

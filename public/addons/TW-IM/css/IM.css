@@ -1,0 +1,403 @@
+#IM {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 9999;
+    font-size: 16px;
+    width: 260px;
+    height: 520px;
+    background: red;
+    box-shadow: 1px 1px 50px rgba(0, 0, 0, .3)
+}
+
+#IM>* {
+    box-sizing: border-box
+}
+
+#IM-close {
+    position: absolute;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    z-index: 9999;
+    line-height: 20px;
+    cursor: pointer;
+    font-size: 20px
+}
+
+#IM-user-move {
+    width: 100%;
+    height: 10px;
+    background: #eee;
+    cursor: move
+}
+
+#IM-user {
+    position: relative;
+    width: 100%;
+    height: 58px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    background: #eee
+}
+
+#IM-user-name {
+    display: inline-block;
+    font-family: 微软雅黑;
+    max-width: 150px;
+    height: 20px;
+    margin-right: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#IM-user-status {
+    display: inline-block;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #3FDD86
+}
+
+#IM-user-sign {
+    position: relative;
+    display: block;
+    width: 100%;
+    left: -6px;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    margin-top: 5px;
+    padding: 0 5px;
+    height: 26px;
+    line-height: 26px;
+    background: 0 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+#IM-user-sign:hover {
+    border: 1px solid #d2d2d2;
+}
+
+#IM-user-sign:focus {
+    border: 1px solid #d2d2d2;
+    background: #fff
+}
+
+#IM-user-tab {
+    display: block;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: auto;
+    font-size: 0;
+    background: #eee;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    padding: 9px 0
+}
+
+#IM-user-tab>li {
+    position: relative;
+    display: inline-block;
+    width: 33.33%;
+    height: 24px;
+    line-height: 24px;
+    font-size: 22px;
+    text-align: center;
+    color: rgba(0, 0, 0, .6);
+    cursor: pointer;
+}
+
+.IM-this:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -9px;
+    width: 100%;
+    height: 3px;
+    background-color: #3FDD86;
+}
+
+.IM-tab-ctn {
+    display: none;
+    list-style: none;
+    padding: 10px 0;
+    height: 349px;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, .9);
+}
+
+#IM-tab-contacts{
+    
+}
+
+#IM-tool {
+    width:100%;
+    height:30px;
+    padding: 0 10px;
+    font-size: 0;
+    background-color: blue;
+    border-radius: 0 0 2px 2px;
+}
+
+#IM-chat {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -280px;
+    margin-left: -300px;
+    z-index: 9999;
+    width: 600px;
+    height: 560px;
+    box-shadow: 1px 1px 50px rgba(0, 0, 0, .3);
+    box-sizing: border-box
+}
+
+#IM-chat>* {
+    box-sizing: border-box
+}
+
+.IM-chat-title {
+    position: relative;
+    width: 100%;
+    height: 80px;
+    background-color: rgba(245, 245, 245, .7);
+    cursor: move;
+    border-radius: 2px 2px 0 0;
+}
+
+.IM-chat-title-left {
+    position: absolute;
+    left: 0;
+    width: 450px;
+    height: 100%
+}
+
+.IM-chat-title-img {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 50%
+}
+
+.IM-chat-title-userName {
+    position: absolute;
+    top: 18px;
+    left: 80px;
+    font-size: 18px;
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.IM-chat-title-userAutograph {
+    position: absolute;
+    top: 45px;
+    left: 80px;
+    width: 350px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px
+}
+
+.IM-chat-title-right {
+    position: absolute;
+    right: 0;
+    width: 100px;
+    height: 30px;
+    background: black
+}
+
+.IM-chat-content {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 15px 15px 5px;
+    background-color: #ffffff
+}
+
+.IM-chat-content>ul {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.IM-chat-content>ul>li {
+    display: list-item;
+    position: relative;
+    list-style: none;
+    font-size: 14px;
+    min-height: 68px
+}
+
+.IM-chat-content-user {
+    position: relative;
+    display: inline-block;
+}
+
+.IM-chat-content>ul>.IM-chat-content-self {
+    position: relative;
+    text-align: right;
+    padding-left: 0;
+    padding-right: 60px;
+    margin-bottom: 10px;
+}
+
+.IM-chat-content>ul>.IM-chat-content-self>.IM-chat-content-user {
+    display: inline-block;
+    position: absolute;
+    left: auto;
+    right: 3px
+}
+
+.IM-chat-content-user>cite {
+    font-size: 12px;
+    color: #999;
+}
+
+.IM-chat-content>ul>.IM-chat-content-self>.IM-chat-content-user>cite {
+    position: absolute;
+    width: 500px;
+    line-height: 24px;
+    left: auto;
+    right: 60px
+}
+
+.IM-chat-content>ul>.IM-chat-content-self>.IM-chat-content-user>cite>i {
+    padding: 0 15px 0 0
+}
+
+.IM-chat-content-user>img {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%
+}
+
+.IM-chat-content>ul>.IM-chat-content-self>.IM-chat-content-text {
+    position: relative;
+    margin-top: 25px;
+    border-radius: 3px;
+    display: inline-block;
+    text-align: left;
+    padding: 8px 15px;
+    background-color: #5FB878;
+    color: #fff;
+    font-size: 14px;
+}
+
+.IM-chat-content>ul>.IM-chat-content-other {
+    position: relative;
+    text-align: left;
+    padding-left: 0;
+    padding-left: 60px;
+    margin-bottom: 10px
+}
+
+.IM-chat-content>ul>.IM-chat-content-other>.IM-chat-content-user {
+    display: inline-block;
+    position: absolute;
+    left: 3px;
+    right: auto
+}
+
+.IM-chat-content-user>cite {
+    font-size: 12px;
+    color: #999;
+}
+
+.IM-chat-content>ul>.IM-chat-content-other>.IM-chat-content-user>cite {
+    position: absolute;
+    width: 500px;
+    line-height: 24px;
+    left: 60px;
+    right: auto
+}
+
+.IM-chat-content>ul>.IM-chat-content-other>.IM-chat-content-user>cite>i {
+    padding: 0 0 0 15px
+}
+
+.IM-chat-content-user>img {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%
+}
+
+.IM-chat-content>ul>.IM-chat-content-other>.IM-chat-content-text {
+    position: relative;
+    margin-top: 25px;
+    border-radius: 3px;
+    display: inline-block;
+    text-align: left;
+    padding: 8px 15px;
+    background-color: #e2e2e2;
+    color: #333;
+    font-size: 14px;
+}
+
+.IM-chat-input {
+    width: 100%;
+    height: 160px;
+    background: red
+}
+
+.Im-chat-input-tool {
+    width: 100%;
+    height: 40px;
+    background: greenyellow
+}
+
+.Im-chat-input-textarea {
+    display: block;
+    box-sizing: border-box;
+    width: 600px;
+    height: 80px;
+    outline: 0;
+    border: 0;
+    resize: none;
+    margin: 0;
+    padding: 8px;
+    overflow: auto;
+}
+
+.Im-chat-input-send {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    background: yellow
+}
+
+.Im-chat-input-send>ul {
+    position: absolute;
+    right: 10px;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0
+}
+
+.Im-chat-input-send>ul>li {
+    list-style: none;
+    float: left
+}
+
+.Im-chat-input-send>ul>li>button {}

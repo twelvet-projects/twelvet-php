@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+	<title>管理后台</title>
+	<link rel="stylesheet" type="text/css" href="__ADMIN__/backstage/backstage.css" />
+	<script type="text/javascript" src="__STATIC__/lib/jquery-3.3.1.js"></script>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/lib/font-awesome.css" />
+	<script type="text/javascript">
+		const config = {$config|json_encode|raw};
+	</script>
+</head>
+
+<body class='fixed-sidebar gray-bg skin-1'>
+	<div id="ctn">
+		<!-- 侧侧导航 -->
+		{include file='/common/menu'}
+		<!-- 侧侧导航结束 -->
+		<!-- 右侧部分开始 -->
+		<div id="page-ctn" class="gray-bg" role="container">
+			<!-- 顶部导航开始 -->
+			<nav class='navbar bg-primary' role="navigation">
+				<div class='navbar-header'>
+					<button class='btn btn-primary ml-20' id='switch-nav'>
+						<i class='fa fa-bars'></i>
+					</button>
+
+					<a href='javascript:;' class='btn btn-light ml-20 T-menuItem' id='switch-nav'>
+						<i class='fa fa-shopping-cart'></i>插件商城
+					</a>
+				</div>
+
+				<ul class="d-none d-sm-flex justify-content-end nav">
+					<li class="nav-item">
+						<a href='/' class="" target='_blank' title='首页'>
+							<i class="fa fa-home"></i>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href='/' class="" target='_blank' title='检查更新'>
+							<i class="fa fa-refresh fa-spin"></i>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href='javascript:;' class="" target='_blank' title='全屏' data-toggle="fullscreen">
+							<i class="fa fa-arrows-alt"></i>
+						</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a href="" class="">
+							<i class="fa fa-cog fa-spin"></i> 系统设置
+						</a>
+					</li>
+				</ul>
+			</nav>
+			<!-- 顶部导航结束 -->
+			<!-- 选项卡开始 -->
+			<nav id='window' class='d-none d-sm-block'>
+				<button type='button' class='p-s-left' id='window-tab-left'>
+					<i class='fa fa-backward'></i>
+				</button>
+
+				<div id='window-container' class='pull-left'>
+					<div id='window-content'>
+						<a class='T-window-tab window-active' addtabs="0" data-url="{url('backstage.html')}">
+							控制台
+						</a>
+					</div>
+				</div>
+
+				<button type='button' id='window-tab-right' class='p-s-right'>
+					<i class='fa fa-forward'></i>
+				</button>
+
+				<div class="dropdown f-right">
+					<button class="dropdown-toggle" type="button" id="tabAdministration" data-toggle="dropdown">
+						管理
+					</button>
+					<div class="dropdown-menu lr-auto" t-label="tabAdministration">
+						<a href="javascript:void(0)" class='dropdown-item' id='window-load'><i
+								class='fa fa-refresh fa-spin'></i> 刷新当前页面</a>
+						<div class="dropdown-divider"></div>
+						<a href="javascript:void(0)" class='dropdown-item' id='window-closeAll'><i
+								class='fa fa-power-off'></i> 关闭全部选项卡</a>
+						<a href="javascript:void(0)" class='dropdown-item' id='window-closeOter'><i
+								class='fa fa-power-off'></i> 关闭其他选项卡</a>
+					</div>
+				</div>
+			</nav>
+			<!-- 选项卡结束 -->
+			<!-- 内容容器开始 -->
+			<div id='content'>
+				<iframe class="iframe" src="" data-index='index.html' width='100%' height='100%'
+					frameborder="0"></iframe>
+			</div>
+			<!-- 内容容器结束 -->
+			<footer id="footer">
+				<div class="pull-right">© <a href="http://www.12tla.com/" target="_blank">TwelveT</a>
+				</div>
+			</footer>
+		</div>
+		<!-- 右侧部分结束 -->
+	</div>
+	<script type="text/javascript" src='__STATIC__/lib/vue.js'></script>
+	<script type="text/javascript" src='__STATIC__/lib/jquery.slimscroll.min.js'></script>
+	<script type="text/javascript" src='__ADMIN__/backstage/backstage.js'></script>
+</body>
+
+</html>
