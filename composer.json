@@ -9,10 +9,10 @@
     "authors": [{
         "name": "TwelveT",
         "email": "2471835953@qq.com",
-        "homepage": "https://www.12tla.com"
+        "homepage": "https://www.twelvet.cn"
     }],
     "require": {
-        "php": ">=5.6.0",
+        "php": ">=7.3",
         "topthink/framework": "5.1.*",
         "topthink/think-captcha": "2.0.*",
         "overtrue/pinyin": "~4.0",

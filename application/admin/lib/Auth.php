@@ -2,6 +2,16 @@
 
 namespace app\admin\lib;
 
+/**
+ * ============================================================================
+ * TwelveT
+ * 版权所有 2018-2019 twelvet.cn，并保留所有权利。
+ * 官网地址:www.twelvet.cn
+ * QQ:2471835953
+ * ============================================================================
+ * 后台权限类
+ */
+
 use think\facade\Request;
 use app\admin\model\Admin;
 use think\facade\Config;

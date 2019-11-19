@@ -3,6 +3,7 @@
 namespace app\index\controller;
 
 use think\Controller;
+use twelvet\utils\HTTP;
 
 class Index extends Controller
 {
@@ -11,8 +12,9 @@ class Index extends Controller
         return $this->fetch();
     }
 
-    public function hello($name = 'ThinkPHP5')
+    public function http()
     {
-        return 'hello,' . $name;
+        $demo = HTTP::get("https://www.12tla.com");
+        return $demo;
     }
 }
