@@ -13,7 +13,7 @@ namespace app\admin\controller;
  * 在线安装、卸载、禁用、启用插件，同时支持离线安装插件
  */
 
-use t\Http;
+use twelvet\utils\Http;
 use think\facade\Cache;
 use think\facade\Env;
 use think\addons\Service;
@@ -381,9 +381,9 @@ class Addon extends TwelveT
         //判断是否存在数据
         if (!is_array($cloudAddons)) {
             //读取api信息
-            $result = Http::sendRequest(config('twelvet.api_url'));
+            $result = Http::post(config('twelvet.api_url') . 'addon/index');
             //判断是否获取成功
-            if ($result['state']) {
+            if ($result['status']) {
                 //解码json数据,数组形式
                 $json = (array) json_decode($result['msg'], true);
                 //判断是否设置数据

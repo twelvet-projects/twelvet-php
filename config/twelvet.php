@@ -13,7 +13,7 @@ return [
     // 版本号
     'version'             => '1.0.0.20190510_beta',
     // API接口地址
-    'api_url'             => 'http://api.12tla.com/addon/index',
+    'api_url'             => 'https://api.12tla.com',
     // TwelveT核心数据表设置，请勿随意更改此处
     'db_tables'           => [
         '__PREFIX__admin',

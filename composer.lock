@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1190f7ea460af59b9871653d21f4367e",
+    "content-hash": "1f300c91f657a7e37c381c4ef04814fe",
     "packages": [
         {
             "name": "overtrue/pinyin",
@@ -214,12 +214,12 @@
             "version": "v1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/12tla/think-addons.git",
+                "url": "https://github.com/twelvet-s/think-addons.git",
                 "reference": "547e720d2248a64f6576feed0bc25804e2e76f9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/12tla/think-addons/zipball/547e720d2248a64f6576feed0bc25804e2e76f9e",
+                "url": "https://api.github.com/repos/twelvet-s/think-addons/zipball/547e720d2248a64f6576feed0bc25804e2e76f9e",
                 "reference": "547e720d2248a64f6576feed0bc25804e2e76f9e",
                 "shasum": "",
                 "mirrors": [
@@ -263,16 +263,66 @@
                 "twelvet"
             ],
             "time": "2019-09-05T11:50:06+00:00"
+        },
+        {
+            "name": "twelvet/utils",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twelvet-s/twelvet-utils.git",
+                "reference": "49e26b155024ec8b454891fd790d707428a9ca96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twelvet-s/twelvet-utils/zipball/49e26b155024ec8b454891fd790d707428a9ca96",
+                "reference": "49e26b155024ec8b454891fd790d707428a9ca96",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "twelvet\\utils\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "TwelveT",
+                    "email": "2471835953@qq.com",
+                    "homepage": "https://www.twelvet.cn"
+                }
+            ],
+            "description": "PHP辅助工具包.",
+            "homepage": "https://github.com/twelvet-s/twelvet-utils",
+            "keywords": [
+                "工具",
+                "开发辅助"
+            ],
+            "time": "2019-11-19T10:45:36+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "twelvet/utils": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.6.0"
+        "php": ">=7.3"
     },
     "platform-dev": []
 }

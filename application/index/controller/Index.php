@@ -14,7 +14,5 @@ class Index extends Controller
 
     public function http()
     {
-        $demo = HTTP::get("https://www.12tla.com");
-        return $demo;
     }
 }

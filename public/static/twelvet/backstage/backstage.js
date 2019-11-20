@@ -134,6 +134,8 @@ $.twelvet = {
 			$('#window-content').css('margin-left', '0');
 			$(this).parent().hide()
 		});
+		// 系统更新查询
+		$('a[data-toggle="checkUpdate"]', '.justify-content-end').click($.twelvet.checkUpdate);
 	},
 	// 窗口全屏控制
 	fullScreen(e) {
@@ -429,6 +431,10 @@ $.twelvet = {
 		}
 		// 自动滚动窗口
 		$.twelvet.autoScroll(record);
+	},
+	// 检查系统更新
+	checkUpdate: function(){
+		alert(123);
 	}
 }
 
