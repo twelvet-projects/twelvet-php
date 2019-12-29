@@ -4,7 +4,6 @@
     "homepage": "https://github.com/twelvet-s/twelvet-php",
     "keywords": ["twelvet"],
     "license": "Apache-2.0",
-    "minimum-stability": "dev",
     "type": "project",
     "authors": [{
         "name": "TwelveT",
