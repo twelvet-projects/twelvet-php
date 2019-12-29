@@ -5,7 +5,7 @@ namespace app\admin\lib;
 /**
  * ============================================================================
  * TwelveT
- * 版权所有 2018-2019 twelvet.cn，并保留所有权利。
+ * 版权所有 twelvet.cn，并保留所有权利。
  * 官网地址:www.twelvet.cn
  * QQ:2471835953
  * ============================================================================
@@ -56,7 +56,7 @@ class Auth
     }
 
     /**
-     * 初始化
+     * 无特殊情况请使用此方法调用实例
      * @access public
      * @param array $options 参数
      * @return Auth
@@ -96,7 +96,7 @@ class Auth
             return ['status' => false, 'msg' => '账号或密码错误'];
         }
         //判断账号是否被冻结
-        if (Config::get('app.login_failure_retry') && $admin['login_fail'] >= 10 && time() - $admin['update_time'] < 86400) {
+        if (Config::get('twelvet.login_failure_retry') && $admin['login_fail'] >= 10 && time() - $admin['update_time'] < 86400) {
             return ['status' => false, 'msg' => '您的账号已被冻结1天'];
         }
         //开始判断账号是否启用

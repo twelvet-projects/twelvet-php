@@ -5,7 +5,7 @@ namespace app\admin\controller;
 /**
  * ============================================================================
  * TwelveT
- * 版权所有 2018-2019 twelvet.cn，并保留所有权利。
+ * 版权所有 twelvet.cn，并保留所有权利。
  * 官网地址:www.twelvet.cn
  * QQ:2471835953
  * ============================================================================
@@ -13,7 +13,7 @@ namespace app\admin\controller;
  * 在线安装、卸载、禁用、启用插件，同时支持离线安装插件
  */
 
-use twelvet\utils\Http;
+use twelvet\utils\HTTP;
 use think\facade\Cache;
 use think\facade\Env;
 use think\addons\Service;
@@ -381,7 +381,7 @@ class Addon extends TwelveT
         //判断是否存在数据
         if (!is_array($cloudAddons)) {
             //读取api信息
-            $result = Http::post(config('twelvet.api_url') . 'addon/index');
+            $result = HTTP::get(config('twelvet.api_url') . 'addon/index');
             //判断是否获取成功
             if ($result['status']) {
                 //解码json数据,数组形式

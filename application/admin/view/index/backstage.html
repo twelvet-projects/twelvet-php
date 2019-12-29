@@ -8,10 +8,9 @@
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 	<title>管理后台</title>
 	<link rel="stylesheet" type="text/css" href="__ADMIN__/backstage/backstage.css" />
-	<script type="text/javascript" src="__STATIC__/lib/jquery-3.3.1.js"></script>
 	<link rel="stylesheet" type="text/css" href="__STATIC__/lib/font-awesome.css" />
 	<script type="text/javascript">
-		const config = {$config|json_encode|raw};
+		var config = {$config|json_encode|raw};
 	</script>
 </head>
 
@@ -25,7 +24,7 @@
 			<!-- 顶部导航开始 -->
 			<nav class='navbar bg-primary' role="navigation">
 				<div class='navbar-header'>
-					<button class='btn btn-primary ml-20' id='switch-nav'>
+					<button class='btn btn-switch ml-20' id='switch-nav'>
 						<i class='fa fa-bars'></i>
 					</button>
 
@@ -41,7 +40,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href='javascript:;' data-toggle="checkUpdate" title='检查更新'>
+						<a href='javascript:;' data-toggle="checkupdate" data-url="{:url('/system/update')}" title='在线更新'>
 							<i class="fa fa-refresh fa-spin"></i>
 						</a>
 					</li>
@@ -52,7 +51,7 @@
 					</li>
 					<li class="nav-item dropdown">
 						<a href="">
-							<i class="fa fa-cog fa-spin"></i> 系统设置
+							<i class="fa fa-cog fa-spin"></i> 系统中心
 						</a>
 					</li>
 				</ul>
@@ -105,6 +104,8 @@
 		</div>
 		<!-- 右侧部分结束 -->
 	</div>
+	<script type="text/javascript" src="__STATIC__/lib/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="__STATIC__/lib/layui/layui.js"></script>
 	<script type="text/javascript" src='__STATIC__/lib/jquery.slimscroll.min.js'></script>
 	<script type="text/javascript" src='__ADMIN__/backstage/backstage.js'></script>
 </body>
