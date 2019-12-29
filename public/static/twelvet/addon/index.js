@@ -179,6 +179,7 @@
                     }
                 });
 
+                
                 //监听状态启用，禁用
                 twelvet.layui.form.on('switch(state)', function (obj) {
                     //判断操作方式
