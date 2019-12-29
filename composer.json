@@ -4,7 +4,7 @@
     "homepage": "https://github.com/12tla/twelvet",
     "keywords": ["twelvet"],
     "license": "Apache-2.0",
-    "minimum-stability": "dev",
+    "minimum-stability": "dev-master",
     "type": "project",
     "authors": [{
         "name": "TwelveT",
