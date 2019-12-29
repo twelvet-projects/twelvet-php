@@ -180,7 +180,7 @@
                 });
 
                 //监听状态启用，禁用
-                form.on('switch(state)', function (obj) {
+                twelvet.layui.form.on('switch(state)', function (obj) {
                     //判断操作方式
                     var action = '';
                     if (obj.elem.checked) {
