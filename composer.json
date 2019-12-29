@@ -1,10 +1,10 @@
 {
     "name": "twelvet/twelvet",
     "description": "TwelveT极速后台开发系统",
-    "homepage": "https://github.com/12tla/twelvet",
+    "homepage": "https://github.com/twelvet-s/twelvet-php",
     "keywords": ["twelvet"],
     "license": "Apache-2.0",
-    "minimum-stability": "master",
+    "minimum-stability": "dev",
     "type": "project",
     "authors": [{
         "name": "TwelveT",
