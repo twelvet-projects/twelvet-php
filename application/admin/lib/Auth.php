@@ -18,6 +18,7 @@ use think\facade\Config;
 use think\facade\Session;
 use think\facade\Cookie;
 use think\Db;
+use twelvet\utils\Random;
 use app\common\controller\Tree;
 
 class Auth
@@ -28,8 +29,16 @@ class Auth
      * @var [object]
      */
     protected static $instance;
+
+    // 错误信息
+    protected $_errpr = '';
+    // 登录状态
+    protected $logined = false;
+
+    // 权限规则
     protected $breadcrumb = [];
     protected $rules = [];
+
 
     /**
      * 当前请求实例
@@ -93,34 +102,38 @@ class Auth
         //获取账号数据
         $admin = Admin::get(['name' => $name]);
         if (!$admin) {
-            return ['status' => false, 'msg' => '账号或密码错误'];
+            $this->setError('账号或密码错误');
+            return false;
         }
         //判断账号是否被冻结
-        if (Config::get('twelvet.login_failure_retry') && $admin['login_fail'] >= 10 && time() - $admin['update_time'] < 86400) {
-            return ['status' => false, 'msg' => '您的账号已被冻结1天'];
+        if (Config::get('twelvet.login_failure_retry') && $admin->login_fail >= 10 && time() - $admin->update_time < 86400) {
+            $this->setError('您的账号已被冻结1天');
+            return false;
         }
         //开始判断账号是否启用
-        if ($admin['status'] != 'normal') {
-            return ['status' => false, 'msg' => '此账号已被禁用'];
+        if ($admin->status != 'normal') {
+            $this->setError('此账号已被禁用');
+            return false;
         }
         //检查密码是否匹配加密方式
-        if ($admin['password'] != md5(md5($password) . $admin['password_key'])) {
+        if ($admin->password != md5(md5($password) . $admin->password_key)) {
             //增加错误次数
             $admin->login_fail++;
             $admin->save();
-            return ['status' => false, 'msg' => '账号或密码错误'];
+            $this->setError('账号或密码错误');
+            return false;
         }
         //通过所有验证后
-        $admin['login_fail'] = 0;
-        $admin['login_time'] = time();
+        $admin->login_fail = 0;
+        $admin->login_time = time();
         //使用全球唯一标识作为令牌
-        $admin['token'] = uuid();
+        $admin->token = Random::uuid();
         $admin->save();
         // 设置登录状态
         Session::set("admin", $admin->toArray());
         // 保持登录状态
         $this->keepLogin($keepTime);
-        return ['status' => true, 'msg' => '登录成功'];
+        return true;
     }
 
     /**
@@ -136,7 +149,7 @@ class Auth
             return true;
         }
         //清除在线令牌
-        $admin['token'] = '';
+        $admin->token = '';
         $admin->save();
         // 清除登录session以及cookie
         Session::delete("admin");
@@ -151,19 +164,25 @@ class Auth
      */
     public function isLogin()
     {
+        // 判断存在登录状态
+        if($this->logined) return true;
+        // 尝试获取信息
         $sessionAdmin = Session::get('admin');
         // 空返回未登录标识
-        if (empty($sessionAdmin)) return ['status' => false, 'msg' => '请先登录'];
+        if (empty($sessionAdmin)) return false;
         //是否需要进行账号在同一时间只能登录一个的判断
         if (Config::get('twelvet.login_unique')) {
             // 获取模型信息
             $admin = Admin::get($sessionAdmin['id']);
             // 判断token值是否一致,实现一账号一登录
-            if ($admin['token'] != $sessionAdmin['token']) {
-                return ['status' => false, 'msg' => '您的账号已在别处登录'];
+            if ($admin->token != $sessionAdmin['token']) {
+                // 自动执行清退
+                $this->logout();
+                return false;
             }
         }
-        return ['status' => true, 'msg' => ''];
+        $this->logined = true;
+        return true;
     }
 
     /**
@@ -289,7 +308,7 @@ class Auth
             $query = preg_replace('/^.+\?/U', '', $rule);
             if ('url' == $mode && $query != $rule) {
                 // 将参数解析到param
-                parse_str($query, $param); 
+                parse_str($query, $param);
                 // 返回交集
                 $intersect = array_intersect_assoc($_request, $param);
                 // 获取地址规则（移除参数）
@@ -615,5 +634,26 @@ class Auth
         }
         // 返回导航信息
         return $this->breadcrumb;
+    }
+
+    /**
+     * 设置错误信息
+     *
+     * @param string $error 错误信息
+     * @return Auth
+     */
+    public function setError(String $error)
+    {
+        $this->_error = $error;
+        return $this;
+    }
+
+    /**
+     * 获取错误信息
+     * @return string
+     */
+    public function getError()
+    {
+        return $this->_error ? __($this->_error) : '';
     }
 }

@@ -92,7 +92,7 @@ class Index extends TwelveT
             AdminLog::setTitle(__('Login'));
             // 开始鉴权信息
             $result = $this->auth->login($name, $password, $keeplogin ? 86400 * 7 : 0);
-            if ($result['status'] === true) {
+            if ($result === true) {
                 // 登录成功后的扩展
                 Hook::listen("admin_login_after", $this->request);
                 // 成功返回后台地址
@@ -101,8 +101,8 @@ class Index extends TwelveT
                     'backstage' => $url
                 ]);
             } else {
-                //错误回应，带上token
-                return tJson($result['msg'], 0, ['token' => $this->request->token()]);
+                // 错误回应，带上token
+                return tJson($this->auth->getError(), 0, ['token' => $this->request->token()]);
             }
         }
         // 根据cookie,判断是否可以自动登录
@@ -110,7 +110,7 @@ class Index extends TwelveT
             // $this->redirect($url);
         }
         //渲染
-        return $this->fetch('login');
+        return $this->view->fetch('login');
     }
 
     /**

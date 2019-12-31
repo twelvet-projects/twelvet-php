@@ -73,13 +73,12 @@ class TwelveT extends Controller
         // 检测是否需要验证登录
         if (!$this->auth->match($this->noLoginRequired)) {
             // 检测是否登录
-            $isLogin = $this->auth->isLogin();
-            if (!$isLogin['status']) {
+            if (!$this->auth->isLogin()) {
                 // 无登录访问页面执行
                 Hook::listen('admin_nologin', $this);
                 $url = $this->request->url();
                 // 未登录警告跳转,带上来源地址
-                $this->error($isLogin['msg'], url('index/index', ['referer' => $url]));
+                $this->error($this->auth->getError(), url('index/index', ['referer' => $url]));
             }
             // 判断是否需要验证权限
             if (!$this->auth->match($this->noRightRequired)) {

@@ -25,6 +25,7 @@ class Update extends TwelveT
 
     public function index()
     {
+        // 只允许post的升级请求
         if ($this->request->isPost()) {
             // 获取用户认证信息
             $token = (string) $this->request->post('token');
