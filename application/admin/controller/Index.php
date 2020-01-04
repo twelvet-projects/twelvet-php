@@ -86,7 +86,7 @@ class Index extends TwelveT
             // 判断是否验证通过
             $validate = new Validate($rule, [], ['name' => '账号', 'password' => '密码', 'captcha' => '验证码']);
             if (!$validate->check($data)) {
-                return tjson($validate->getError(), 0, ['token' => $this->request->token()]);
+                return tjson(0, (String) $validate->getError(), ['token' => $this->request->token()]);
             }
             // 写入记录信息标题
             AdminLog::setTitle(__('Login'));
@@ -96,13 +96,13 @@ class Index extends TwelveT
                 // 登录成功后的扩展
                 Hook::listen("admin_login_after", $this->request);
                 // 成功返回后台地址
-                return tJson('', '', [
+                return tJson(1, '登录成功', [
                     'state' => true,
                     'backstage' => $url
                 ]);
             } else {
                 // 错误回应，带上token
-                return tJson($this->auth->getError(), 0, ['token' => $this->request->token()]);
+                return tJson(0, $this->auth->getError(), ['token' => $this->request->token()]);
             }
         }
         // 根据cookie,判断是否可以自动登录

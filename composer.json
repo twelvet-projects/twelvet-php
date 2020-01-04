@@ -15,8 +15,8 @@
         "topthink/framework": "5.1.*",
         "topthink/think-captcha": "2.0.*",
         "overtrue/pinyin": "~4.0",
-        "twelvet/think-addons": "^1.0",
-        "twelvet/utils": "dev-master"
+        "twelvet/utils": "dev-master",
+        "twelvet/think-addons": "dev-master"
     },
     "autoload": {
         "psr-4": {

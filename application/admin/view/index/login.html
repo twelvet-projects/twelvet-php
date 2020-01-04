@@ -117,9 +117,9 @@
                         //发送登录请求[地址，参数]
                         axios.post(window.location.pathname, this.userInfo).then((r) => {
                             let res = r.data;
-                            if (res.state) {
+                            if (res.code) {
                                 // 根据后台返回的地址进行跳转
-                                window.location.href = res.backstage;
+                                window.location.href = res.data.backstage;
                             } else {
                                 notice.error(res.msg);
                                 //更新token

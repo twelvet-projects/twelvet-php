@@ -52,7 +52,7 @@ class Update extends TwelveT
                 // // 解压压缩包
                 // File::unzip($tempFile, Env::get('RUNTIME_PATH') . 'twelvet');
                 File::rm('C:\wwwroot\www.12tla.com\runtime\twelvet\demo');
-                $this->result(null, 1, '成功执行');
+                return tjson(1, '成功执行');
             } catch (\twelvet\utils\exception\UtilsException $e) {
                 return tjson($e->getCode(), $e->getMessage());
             }
