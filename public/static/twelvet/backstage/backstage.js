@@ -16,8 +16,8 @@
 		T: {
 			status: false,
 			user: null,
-			// 登录窗口
-			loginWindow: function () {
+			// 登录窗口提示信息
+			loginInfoWindow: function () {
 				// 登录窗口模板
 				let tempWindow = '<div class="alert alert-danger-light"><i class="fa fa-info-circle"></i> 请使用<a href="https://www.twelvet.cn/" target="_blank">TwelveT</a>官方账号登录后再进行操作，这有助于我们跟进您在使用过程中所遇到的问题，并给予及时的帮助！！！</div>  <div class="clearfix" style="margin-top:15px;"><a href="https://www.twelvet.cn/page/addon-agreement.html" class="btn btn-info btn-block" target="_blank">TwelveT使用协议</a><a href="https://www.twelvet.cn/go/qun" class="btn btn-info btn-block" target="_blank">遇到问题无法解决？</a></div>';
 				// 打开窗口
@@ -27,59 +27,10 @@
 					anim: 1,
 					btn: ['前往登录', '注册账号'],
 					btn1: function (index, layero) {
-						// 登录模板
-						let tempLogin = '<form action="javascript:;" data-id="twelvet"><div class="input-group"> <span class="input-group-addon"> <i class="fa fa-user"></i> </span><input type="text" class="form-control" name="userName" placeholder="你的手机号、用户名或邮箱"></div><div class="input-group"> <span class="input-group-addon"> <i class="fa fa-lock"></i> </span><input type="password" class="form-control" name="password" placeholder="你的密码"></div></form>';
 						// 关闭弹框
 						twelvet.layui.layer.close(index);
 						// 打开登录窗口
-						twelvet.layui.layer.open({
-							type: 1,
-							title: '登录TwelveT',
-							content: tempLogin,
-							area: ['350px'],
-							anim: 0,
-							btn: ['立即登录', '注册账号'],
-							btn1: function (index, layero) {
-								// 跨域请求官网
-								$.ajax({
-									url: config.twelvet.api_url + '/user/login',
-									type: 'GET',
-									data: $('form[data-id="twelvet"]', '.layui-layer-content').serialize(),
-									dataType: 'jsonp',
-									jsonp: 'callback',
-									beforeSend: function () {
-										// 开启全局加载动画
-										twelvet.load = twelvet.layui.layer.load();
-									},
-									success: function (result) {
-										if (result.code) {
-											// 获取数据
-											let data = result.data;
-											// 设置数据
-											localStorage.setItem("twelvet", JSON.stringify(data));
-											twelvet.T.status = true;
-											twelvet.T.user = data;
-											// 关闭登录窗口
-											twelvet.layui.layer.close(index);
-											// 登录成功
-											twelvet.layui.layer.alert(result.msg);
-										} else {
-											// 提示登录失败
-											twelvet.layui.layer.msg(result.msg);
-										}
-									}
-								}).then(() => {
-									// 关闭全局加载动画
-									twelvet.layui.layer.close(twelvet.load);
-								})
-							},
-							btn2: function (index, layero) {
-								// 打开窗口
-								window.open(config.twelvet.api_url + '/user/regiser.html', '_blank');
-								// 禁止关闭窗口
-								return false;
-							},
-						})
+						twelvet.T.login();
 					},
 					btn2: function (index, layero) {
 						// 打开窗口
@@ -88,6 +39,79 @@
 						return false;
 					}
 				})
+			},
+			// 登录窗口
+			login: function () {
+				// 登录模板
+				let tempLogin = '<form action="javascript:;" data-id="twelvet"><div class="input-group"> <span class="input-group-addon"> <i class="fa fa-user"></i> </span><input type="text" class="form-control" name="userName" placeholder="你的手机号、用户名或邮箱"></div><div class="input-group"> <span class="input-group-addon"> <i class="fa fa-lock"></i> </span><input type="password" class="form-control" name="password" placeholder="你的密码"></div></form>';
+
+				twelvet.layui.layer.open({
+					type: 1,
+					title: '登录TwelveT',
+					content: tempLogin,
+					area: ['350px'],
+					anim: 0,
+					btn: ['立即登录', '注册账号'],
+					btn1: function (index, layero) {
+						// 跨域请求官网
+						$.ajax({
+							url: config.twelvet.api_url + '/user/login',
+							type: 'GET',
+							data: $('form[data-id="twelvet"]', '.layui-layer-content').serialize(),
+							dataType: 'jsonp',
+							jsonp: 'callback',
+							beforeSend: function () {
+								// 开启全局加载动画
+								twelvet.load = twelvet.layui.layer.load();
+							},
+							success: function (result) {
+								if (result.code) {
+									// 获取数据
+									let data = result.data;
+									// 设置数据
+									localStorage.setItem("twelvet", JSON.stringify(data));
+									twelvet.T.status = true;
+									twelvet.T.user = data;
+									// 关闭登录窗口
+									twelvet.layui.layer.close(index);
+									// 登录成功
+									twelvet.layui.layer.alert(result.msg);
+								} else {
+									// 提示登录失败
+									twelvet.layui.layer.msg(result.msg);
+								}
+							}
+						}).then(() => {
+							// 关闭全局加载动画
+							twelvet.layui.layer.close(twelvet.load);
+						})
+					},
+					btn2: function (index, layero) {
+						// 打开窗口
+						window.open(config.twelvet.api_url + '/user/regiser.html', '_blank');
+						// 禁止关闭窗口
+						return false;
+					},
+				})
+			},
+			loginTip: function (msg) {
+				twelvet.layui.layer.alert(msg, {
+					title: "警告",
+					icon: 0,
+					btn: ["重新登录", "取消"],
+					btn1: function (index, layero) {
+						// 关闭弹窗
+						twelvet.layui.layer.close(index);
+						// 重新打开登录窗口
+						twelvet.T.login();
+					},
+					end: function (index, layero) {
+						// 设置登录状态为false
+						twelvet.T.status = false;
+						// 删除localStorage状态
+						window.localStorage.removeItem('twelvet');
+					}
+				});
 			}
 		},
 		// layui对象
@@ -102,7 +126,7 @@
 			layer: null,
 			notice: null
 		},
-		// 全局加载对象
+		// 全局加载动画对象
 		load: null,
 		// 初始化函数
 		init: function () {
@@ -277,8 +301,8 @@
 		update() {
 			// 判断是否已登录官网
 			if (!twelvet.T.status) {
-				twelvet.T.loginWindow();
-				return
+				twelvet.T.loginInfoWindow();
+				return false;
 			}
 			// 发送请求
 			$.ajax({
@@ -286,19 +310,20 @@
 				type: 'POST',
 				data: {
 					token: twelvet.T.user.token,
-					uid: twelvet.T.user.id
+					uid: twelvet.T.user.id,
+					version: config.twelvet.version
 				},
 				dataType: 'json',
 				success: function (result) {
 					switch (result['code']) {
 						case 1:
-							return;
+							twelvet.layui.layer.msg(result['msg']);
 							break;
 						case 2:
-							return;
+							twelvet.T.loginTip(result['msg']);
 							break;
-						default: 
-							twelvet.layer.msg(result['msg']);
+						default:
+							twelvet.layui.layer.msg(result['msg']);
 					}
 					console.log(JSON.parse(result));
 				}

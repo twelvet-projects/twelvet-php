@@ -11,7 +11,7 @@ return [
     // 自动检测更新
     'checkupdate'         => true,
     // 版本号
-    'version'             => '1.0.0.20190510_beta',
+    'version'             => '1.0',
     // API接口地址
     'api_url'             => 'https://api.twelvet.cn',
     // TwelveT核心数据表设置，请勿随意更改此处

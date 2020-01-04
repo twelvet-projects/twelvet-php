@@ -41,16 +41,14 @@ if (!function_exists('tJson')) {
      * @param array $data
      * @return void
      */
-    function tJson($msg, $state = false, $data = [])
+    function tJson(int $code, String $msg, array $data = null, int $webCode = 200, $header = [], $options = [])
     {
-        //判断是否使用自定义数组
-        if (isset($data['state'])) return json($data);
-        //存放数组
-        $result = ['state' => $state, 'msg' => $msg];
-        //判断是否存在data信息
-        if (!empty($data)) $result['data'] = $data;
-        //使用助手函数返回json数据
-        return json($result);
+        return json([
+            'code' => $code,
+            'msg' => $msg,
+            'time' => time(),
+            'data' => $data,
+        ], $webCode, $header, $options);
     }
 }
 
