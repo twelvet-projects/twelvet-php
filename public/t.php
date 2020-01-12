@@ -12,10 +12,17 @@
 // [ 应用入口文件 ]
 namespace think;
 
+// PHP版本检查，可自行打开（默认通过composer安装的不需要打开此行）
+// if (version_compare(PHP_VERSION, '7.3', '<')) die('PHP版本过低，最少需要PHP7.3，请升级PHP版本！');
+
+// 判断是否安装TwelveT
+if (!is_file(__DIR__ . '/../application/admin/command/install/install.lock')) {
+    header("location:./install.php");
+    exit;
+}
+
 // 加载基础文件
 require __DIR__ . '/../thinkphp/base.php';
-
-// 支持事先使用静态方法设置Request对象和Config对象
 
 // 执行应用并响应
 Container::get('app')->run()->send();

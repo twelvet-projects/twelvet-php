@@ -437,7 +437,6 @@ class Container implements ArrayAccess, IteratorAggregate, Countable
             $args = $constructor ? $this->bindParams($constructor, $vars) : [];
 
             return $reflect->newInstanceArgs($args);
-
         } catch (ReflectionException $e) {
             throw new ClassNotFoundException('class not exists: ' . $class, $class);
         }

@@ -13,17 +13,21 @@ namespace app\admin\controller\system;
  */
 
 use app\admin\controller\TwelveT;
-use Exception;
 use twelvet\utils\HTTP;
 use twelvet\utils\File;
-use think\facade\App;
 use think\facade\Env;
+use think\facade\Config;
+use twelvet\utils\exception\UtilsException;
 
 class Update extends TwelveT
 {
+    private $tempPath = '';
+
     public function initialize()
     {
         parent::initialize();
+        // 设置更新包目录
+        $this->tempPath = Env::get('RUNTIME_PATH') . 'twelvet\\';
     }
 
     public function index()
@@ -42,21 +46,47 @@ class Update extends TwelveT
             ];
             try {
                 // 发起HTTP请求更新信息
-                // $result = HTTP::get(config('twelvet.api_url') . '/update/index', $params);
-                // // 解析json
-                // $json = (array) json_decode($result, true);
-                // // 判断请求信息是否成功
-                // if ($json['code'] != 1) return tjson($json['code'], $json['msg']);
-                // // 远程下载压缩包文件
-                // $tempFile = HTTP::download($json['data']['path'], Env::get('RUNTIME_PATH') . 'twelvet/', 'demo.zip', $params);
-                // // 解压压缩包
-                // File::unzip($tempFile, Env::get('RUNTIME_PATH') . 'twelvet');
-                File::rm('C:\wwwroot\www.12tla.com\runtime\twelvet\demo');
+                $result = HTTP::get(
+                    config('twelvet.api_url') . '/update/index',
+                    $params
+                );
+                // 解析json
+                $json = (array) json_decode($result, true);
+                // 判断回应code是否成功
+                if ($json['code'] != 1) return tjson($json['code'], $json['msg']);
+
+                // 远程下载压缩包文件
+                $tempZip = HTTP::download(
+                    $json['data']['path'],
+                    $this->tempPath,
+                    $json['data']['version'] . '.zip',
+                    $params
+                );
+                // 检查文件MD5信息
+                //$this->checkMd5($tempFile, $json['data']['MD5']);
+                // 解压更新包
+                $tempDir = File::unzip((string) $tempZip, Env::get('RUNTIME_PATH') . 'twelvet');
+
+                $demo = Config::parse($tempDir . '\\2.0\\config\\info.ini', '', "addon-info-twim");
+                dd($demo);
+
                 return tjson(1, '成功执行');
-            } catch (\twelvet\utils\exception\UtilsException $e) {
+            } catch (UtilsException $e) {
                 return tjson($e->getCode(), $e->getMessage());
+            } finally {
+                // 清空缓存
+                //File::rm(Env::get('RUNTIME_PATH') . 'twelvet');
             }
         }
         return tjson(1, '请求成功');
+    }
+
+    public function checkMd5($tempFile, $MD5)
+    {
+        // 判断升级包md5是否正常
+        if (md5_file($tempFile) != $MD5) {
+            //echo md5_file($tempFile);
+            throw new UtilsException('更新包MD5信息异常', 200);
+        }
     }
 }

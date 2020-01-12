@@ -38,7 +38,7 @@ class Addon extends TwelveT
         (string) $name = $this->request->param('name');
         (object) $file = $this->request->file('image');
         //判断参数获取
-        if (!$name || !$file) return tJson('上传参数错误');
+        if (!$name || !$file) return tJson(0, '上传参数错误');
         //定义插件配置目录
         $addonDir = Env::get('ROOT_PATH')
             . 'public'
@@ -67,7 +67,7 @@ class Addon extends TwelveT
             $msg = ['state' => false, 'msg' => $file->getError()];
         }
         //返回信息
-        return tJson('', '', $msg);
+        return tJson(0, $msg);
     }
     /**
      * 删除配置文件
@@ -91,15 +91,15 @@ class Addon extends TwelveT
         //遍历删除
         foreach ($fileNames as $fileName) {
             //判断在对于目录下是否存在文件
-            if (!is_file($addonDir . $fileName)) return tJson('找不到此文件：' . $fileName);
+            if (!is_file($addonDir . $fileName)) return tJson(0, '找不到此文件：' . $fileName);
             //捕获删除异常
             try {
                 unlink($addonDir . $fileName);
             } catch (Exception $e) {
-                return tJson($fileName . '删除失败,权限不足');
+                return tJson(0, $fileName . '删除失败,权限不足');
             }
         }
-        return tJson('删除成功', true);
+        return tJson(1, '删除成功');
     }
     /**
      * 管理上传配置文件
@@ -109,7 +109,7 @@ class Addon extends TwelveT
         //获取参数以及文件信息
         (string) $name = $this->request->param('name');
         //判断参数获取时
-        if (!$name) return tJson('参数获取错误');
+        if (!$name) return tJson(0, '参数获取错误');
         //判断是否数据请求
         if ($this->request->isAjax()) {
             $res = ['state' => true, 'code' => 0];
@@ -174,7 +174,7 @@ class Addon extends TwelveT
         try {
             //执行卸载
             Service::uninstall($name, $force);
-            return tjson('成功卸载插件：' . $title);
+            return tjson(0, '成功卸载插件：' . $title);
         } catch (AddonException $e) {
             $this->result($e->getData(), $e->getCode(), $e->getMessage());
         } catch (Exception $e) {
@@ -190,17 +190,17 @@ class Addon extends TwelveT
         //获取参数
         (string) $name = $this->request->param("name");
         if (!$name) {
-            return tjson('缺少主要参数');
+            return tjson(0, '缺少主要参数');
         }
         //判断是否存在插件
         if (!is_dir(Env::get('ADDONS_PATH') . $name)) {
-            return tjson('插件目录不存在');
+            return tjson(0, '插件目录不存在');
         }
         //获取插件信息
         $info = get_addons_info($name);
         //判断是否成功获取
         if (!$info) {
-            return tjson('获取插件信息失败');
+            return tjson(0, '获取插件信息失败');
         }
         //获取插件配置参数配置信息
         $config = get_addons_config($name);
@@ -228,12 +228,12 @@ class Addon extends TwelveT
                 try {
                     //更新配置文件
                     set_addons_fullconfig($name, $config);
-                    return tjson('', true);
+                    return tjson(1, '执行成功');
                 } catch (Exception $e) {
-                    return tjson($e->getMessage());
+                    return tjson(0, $e->getMessage());
                 }
             }
-            return tjson('参数名称不能为空');
+            return tjson(0, '参数名称不能为空');
         }
         //定义数组
         $tips = [];
@@ -346,7 +346,7 @@ class Addon extends TwelveT
                     //导入安装包的SQL
                     Service::importsql($config);
                     //返回安装成功信息
-                    return tjson('成功安装插件：' . $config['title'], true);
+                    return tjson(1, '成功安装插件：' . $config['title']);
                 } catch (Exception $e) {
                     @rmdirs($newAddonDir);
                     throw new Exception($e->getMessage());
@@ -357,11 +357,11 @@ class Addon extends TwelveT
                 //清除插件所有缓存
                 @unlink($tmpFileDir);
                 @rmdirs($tmpAddonDir);
-                return tJson($e->getMessage());
+                return tJson(0, $e->getMessage());
             }
         } else {
             //返回错误信息
-            return tJson($file->getError());
+            return tJson(0, $file->getError());
         }
     }
     /**
@@ -442,6 +442,6 @@ class Addon extends TwelveT
         $total = count($list);
         //组成最终信息
         $result = ['state' => 1, 'code' => 0, 'count' => $total, 'data' => $list];
-        return tjson('', '', $result);
+        return tjson(0, $result);
     }
 }

@@ -111,3 +111,21 @@ if (!function_exists('collection')) {
         }
     }
 }
+
+if (!function_exists('dd')) {
+
+    /**
+     * 简易调试助手
+     *
+     * @param [type] ...$vars
+     * @return void
+     */
+    function dd(...$vars)
+    {
+        foreach ($vars as $k => $v) {
+            dump($v);
+        }
+
+        die(1);
+    }
+}
