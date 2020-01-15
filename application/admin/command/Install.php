@@ -27,7 +27,7 @@ class Install extends Command
             ->addOption('username', 'u', Option::VALUE_OPTIONAL, 'mysql username', $config['username'])
             ->addOption('password', 'p', Option::VALUE_OPTIONAL, 'mysql password', $config['password'])
             ->addOption('force', 'f', Option::VALUE_OPTIONAL, 'force override', false)
-            ->setDescription('New installation of FastAdmin');
+            ->setDescription('New installation of TwelveT');
     }
 
     protected function execute(Input $input, Output $output)
@@ -41,12 +41,12 @@ class Install extends Command
         $username = $input->getOption('username');
         $password = $input->getOption('password');
 
-        $installLockFile = __DIR__ . "/Install/install.lock";
+        $installLockFile = __DIR__ . "/install/install.lock";
         if (is_file($installLockFile) && !$force) {
-            throw new Exception("\nFastAdmin already installed!\nIf you need to reinstall again, use the parameter --force=true ");
+            throw new Exception("\nTwelveT already installed!\nIf you need to reinstall again, use the parameter --force=true ");
         }
 
-        $sql = file_get_contents(__DIR__ . '/Install/fastadmin.sql');
+        $sql = file_get_contents(__DIR__ . '/install/twelvet.sql');
 
         $sql = str_replace("`fa_", "`{$prefix}", $sql);
 

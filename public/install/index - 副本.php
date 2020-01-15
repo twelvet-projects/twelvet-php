@@ -8,67 +8,58 @@
  * @website https://www.twelvet.cn
  */
 
-// 定义目录分隔符
-define('DS', DIRECTORY_SEPARATOR);
+// 应用名称
+const WEBSITE = "twelvet";
 
-// 定义根目录
-define('ROOT_PATH', __DIR__ . DS . '..' . DS);
+// 目录分隔符
+const DS = DIRECTORY_SEPARATOR;
 
-// 定义应用目录
-define('APP_PATH', ROOT_PATH . 'application' . DS);
+// 根目录
+const ROOT_PATH = __DIR__ . DS . '..' . DS;
 
-// 定义配置目录
-define('CONFIG', ROOT_PATH . 'config' . DS);
+// 应用目录
+const APP_PATH = ROOT_PATH . 'application' . DS;
+
+// 配置目录
+const CONFIG = ROOT_PATH . 'config' . DS;
 
 // 安装包目录
-define('INSTALL_PATH', APP_PATH . 'admin' . DS . 'command' . DS . 'Install' . DS);
+const INSTALL_PATH = './';
 
-// 判断文件或目录是否有写的权限
-function is_really_writable($file)
-{
-    if (DIRECTORY_SEPARATOR == '/' and @ini_get("safe_mode") == false) {
-        return is_writable($file);
-    }
-    if (!is_file($file) or ($fp = @fopen($file, "r+")) === false) {
-        return false;
-    }
+// 数据库配置文件
+const DB = CONFIG . 'database.php';
 
-    fclose($fp);
-    return true;
-}
+// 后台入口文件
+const ADMIN = ROOT_PATH . 'public' . DS . 'admin.php';
 
-$sitename = "twelvet";
+// 缓存目录
+const RUNTIME = APP_PATH . 'runtime';
 
-$link = array(
-    'qqun'  => "https://jq.qq.com/?_wv=1027&amp;k=487PNBb",
-    'gitee' => 'https://gitee.com/L/twelvet/attach_files',
-    'home'  => 'https://www.twelvet.net?ref=install',
-    'forum' => 'https://forum.twelvet.net?ref=install',
-    'doc'   => 'https://doc.twelvet.net?ref=install',
-);
+// 锁定升级文件
+const LOCK = INSTALL_PATH . 'install.lock';
 
-// 检测目录是否存在
+// 检测的目录是否存在(需要检测)
 $checkDirs = [
     'thinkphp',
     'vendor',
     'public' . DS . 'static'
 ];
-//缓存目录
-$runtimeDir = APP_PATH . 'runtime';
 
-//错误信息
+// 错误信息
 $errInfo = '';
 
-//数据库配置文件
-$dbConfigFile = CONFIG . 'database.php';
+// 官网快捷连接
+$link = [
+    'qqun'  => "https://jq.qq.com/?_wv=1027&amp;k=487PNBb",
+    'gitee' => 'https://gitee.com/L/twelvet/attach_files',
+    'home'  => 'https://www.twelvet.net?ref=install',
+    'forum' => 'https://forum.twelvet.net?ref=install',
+    'doc'   => 'https://doc.twelvet.net?ref=install',
+];
 
-//后台入口文件
-$adminFile = ROOT_PATH . 'public' . DS . 'admin.php';
-
-// 锁定的文件
-$lockFile = INSTALL_PATH . 'install.lock';
-if (is_file($lockFile)) {
-    $errInfo = "当前已经安装{$sitename}，如果需要重新安装，请手动移除application/admin/command/Install/install.lock文件";
+// 判断是否存在安装锁定文件
+if (is_file(LOCK)) {
+    $errInfo = "当前已经安装" . WEBSITE . "，如果需要重新安装，请手动移除public/install/install.lock文件";
 } else {
     if (version_compare(PHP_VERSION, '7.3.0', '<')) {
         $errInfo = "当前版本(" . PHP_VERSION . ")过低，请使用PHP7.3以上版本";
@@ -76,22 +67,24 @@ if (is_file($lockFile)) {
         if (!extension_loaded("PDO")) {
             $errInfo = "当前未开启PDO，无法进行安装";
         } else {
-            if (!is_really_writable($dbConfigFile)) {
+            if (!is_writable($dbConfigFile)) {
+                // 判断是否被限制区域
                 $open_basedir = ini_get('open_basedir');
                 if ($open_basedir) {
                     $dirArr = explode(PATH_SEPARATOR, $open_basedir);
                     if ($dirArr && in_array(__DIR__, $dirArr)) {
-                        $errInfo = '当前服务器因配置了open_basedir，导致无法读取父目录<br><a href="https://forum.twelvet.net/thread/1145?ref=install" target="_blank">点击查看解决办法</a>';
+                        $errInfo = '请将有关本项目的open_basedir关闭后再尝试';
                     }
                 }
                 if (!$errInfo) {
-                    $errInfo = '当前权限不足，无法写入配置文件application/database.php<br><a href="https://forum.twelvet.net/thread/1145?ref=install" target="_blank">点击查看解决办法</a>';
+                    $errInfo = '当前权限不足，无法写入配置文件config/database.php';
                 }
             } else {
                 $dirArr = [];
+                // 遍历数组中的目录检查是否存在
                 foreach ($checkDirs as $k => $v) {
                     if (!is_dir(ROOT_PATH . $v)) {
-                        $errInfo = '当前代码仅包含核心代码，请前往官网下载完整包或资源包覆盖后再尝试安装，<a href="https://www.twelvet.net/download.html?ref=install" target="_blank">立即前往下载</a>';
+                        $errInfo = '当前代码仅包含核心代码，可处于命令行模式执行composer istall自动获取，或前往官网下载完整包或资源包覆盖后再尝试安装，<a href="https://www.twelvet.net/download.html?ref=install" target="_blank">立即前往下载</a>';
                         break;
                     }
                 }
@@ -99,6 +92,11 @@ if (is_file($lockFile)) {
         }
     }
 }
+
+// 如果存在错误信息立即阻断执行
+// if($errInfo){
+    
+// }
 
 // 响应POST请求
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -179,7 +177,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         //检测能否成功写入lock文件
-        $result = @file_put_contents($lockFile, '此文件存在意义：防止恶意重复安装');
+        $result = @file_put_contents(LOCK, '此文件存在意义：防止恶意重复安装');
         if (!$result) {
             throw new Exception("无法写入安装锁定到application/admin/command/Install/install.lock文件，请检查是否有写权限");
         }
@@ -189,10 +187,10 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $pdo->query("UPDATE {$mysqlPrefix}admin SET username = '{$adminUsername}', email = '{$adminEmail}',password = '{$newPassword}', salt = '{$newSalt}' WHERE username = 'admin'");
 
         $adminName = '';
-        if (is_file($adminFile)) {
+        if (is_file(ADMIN)) {
             $x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $adminName = substr(str_shuffle(str_repeat($x, ceil(10 / strlen($x)))), 1, 10) . '.php';
-            rename($adminFile, ROOT_PATH . 'public' . DS . $adminName);
+            rename(ADMIN, ROOT_PATH . 'public' . DS . $adminName);
         }
         echo "success|{$adminName}";
     } catch (PDOException $e) {
@@ -210,9 +208,12 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>安装<?php echo $sitename; ?></title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <title>安装<?php echo WEBSITE; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
     <meta name="renderer" content="webkit">
+
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.0-1/css/all.css">
 
     <style>
         body {
@@ -376,11 +377,11 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
     <div class="container">
-        <h2>安装 <?php echo $sitename; ?></h2>
+        <h2>安装 <?php echo WEBSITE; ?></h2>
         <div>
 
             <p>若你在安装中遇到麻烦可点击 <a href="<?php echo $link['doc']; ?>" target="_blank">安装文档</a> <a href="<?php echo $link['forum']; ?>" target="_blank">问答社区</a> <a href="<?php echo $link['qqun']; ?>">QQ交流群</a></p>
-            <!--<p><?php echo $sitename; ?>还支持在命令行php think install一键安装</p>-->
+            <p><?php echo WEBSITE; ?>还支持在命令行php think install一键安装哦！！！</p>
 
             <form method="post">
                 <?php if ($errInfo) : ?>
@@ -472,7 +473,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                                     $('#error').hide();
                                     $(".form-group", form).remove();
                                     $button.remove();
-                                    $("#success").text("安装成功！开始你的<?php echo $sitename; ?>之旅吧！").show();
+                                    $("#success").text("安装成功！开始你的<?php echo WEBSITE; ?>之旅吧！").show();
 
                                     $buttons = $(".form-buttons", form);
                                     $('<a class="btn" href="./">访问首页</a>').appendTo($buttons);

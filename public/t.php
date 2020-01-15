@@ -17,7 +17,7 @@ namespace think;
 
 // 判断是否安装TwelveT
 if (!is_file(__DIR__ . '/../application/admin/command/install/install.lock')) {
-    header("location:./install.php");
+    header("location:./install");
     exit;
 }
 
