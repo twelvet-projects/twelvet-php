@@ -1,6 +1,8 @@
 /thinkphp/
+/runtime/*
 /addons/*
 /public/install/*.lock
+/public/assets/addons/*
 /.idea
 /.vscode
 /vendor
