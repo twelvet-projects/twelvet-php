@@ -16,7 +16,7 @@ namespace think;
 // if (version_compare(PHP_VERSION, '7.3', '<')) die('PHP版本过低，最少需要PHP7.3，请升级PHP版本！');
 
 // 判断是否安装TwelveT
-if (!is_file(__DIR__ . '/../application/admin/command/install/install.lock')) {
+if (!is_file(__DIR__ . '/install/install.lock')) {
     header("location:./install");
     exit;
 }
