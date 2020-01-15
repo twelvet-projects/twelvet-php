@@ -387,6 +387,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     } catch (Exception $e) {
         $err = $e->getMessage();
     }
+    
     echo $err;
     exit;
 }
