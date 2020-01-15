@@ -97,10 +97,10 @@ class Auth
      * @param integer $keepTime
      * @return boolean
      */
-    public function login(String $name, String $password, int $keepTime)
+    public function login(String $username, String $password, int $keepTime)
     {
         //获取账号数据
-        $admin = Admin::get(['name' => $name]);
+        $admin = Admin::get(['username' => $username]);
         if (!$admin) {
             $this->setError('账号或密码错误');
             return false;

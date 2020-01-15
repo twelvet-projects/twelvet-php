@@ -45,7 +45,7 @@ class AdminLog extends Model
          * 此处需要修复登录判断
          */
         $admin_id = $auth->isLogin() ? $auth->id : 0;
-        $username = $auth->isLogin() ? $auth->name : __('Unknown');
+        $username = $auth->isLogin() ? $auth->username : __('Unknown');
         $content = self::$content;
         if (!$content) {
             $content = request()->param();

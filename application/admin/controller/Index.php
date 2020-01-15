@@ -62,19 +62,19 @@ class Index extends TwelveT
         //判断是否登录请求
         if ($this->request->isPost()) {
             // 获取信息
-            $name       = $this->request->post('name');
+            $username       = $this->request->post('username');
             $password   = $this->request->post('password');
             $keeplogin  = '';
             $token      = $this->request->post('token');
             //定义规则
             $rule = [
-                'name'  => 'require|length:3,30',
+                'username'  => 'require|length:3,30',
                 'password'  => 'require|length:3,30',
                 '__token__' => 'token',
             ];
             // 设置数据
             $data = [
-                'name'  => $name,
+                'username'  => $username,
                 'password'  => $password,
                 '__token__' => $token,
             ];
@@ -84,14 +84,14 @@ class Index extends TwelveT
                 $rule['captcha'] = 'require|captcha';
             }
             // 判断是否验证通过
-            $validate = new Validate($rule, [], ['name' => '账号', 'password' => '密码', 'captcha' => '验证码']);
+            $validate = new Validate($rule, [], ['username' => '账号', 'password' => '密码', 'captcha' => '验证码']);
             if (!$validate->check($data)) {
                 return tjson(0, (String) $validate->getError(), ['token' => $this->request->token()]);
             }
             // 写入记录信息标题
             AdminLog::setTitle(__('Login'));
             // 开始鉴权信息
-            $result = $this->auth->login($name, $password, $keeplogin ? 86400 * 7 : 0);
+            $result = $this->auth->login($username, $password, $keeplogin ? 86400 * 7 : 0);
             if ($result === true) {
                 // 登录成功后的扩展
                 Hook::listen("admin_login_after", $this->request);
