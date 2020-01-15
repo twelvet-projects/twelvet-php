@@ -1,5 +1,5 @@
 /thinkphp/
-
+/runtime/*
 /addons/*
 /public/install/*.lock
 /public/assets/addons/*
