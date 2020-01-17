@@ -18,15 +18,14 @@ class Install extends Command
     protected function configure()
     {
         $config = Config::get('database');
-        $this
-            ->setName('install')
+        $this->setName('install')
             ->addOption('hostname', 'a', Option::VALUE_OPTIONAL, 'mysql hostname', $config['hostname'])
             ->addOption('hostport', 'o', Option::VALUE_OPTIONAL, 'mysql hostport', $config['hostport'])
             ->addOption('database', 'd', Option::VALUE_OPTIONAL, 'mysql database', $config['database'])
-            ->addOption('prefix', 'r', Option::VALUE_OPTIONAL, 'table prefix', $config['prefix'])
+            ->addOption('prefix'  , 'r', Option::VALUE_OPTIONAL, 'table prefix', $config['prefix'])
             ->addOption('username', 'u', Option::VALUE_OPTIONAL, 'mysql username', $config['username'])
             ->addOption('password', 'p', Option::VALUE_OPTIONAL, 'mysql password', $config['password'])
-            ->addOption('force', 'f', Option::VALUE_OPTIONAL, 'force override', false)
+            ->addOption('force'   , 'f', Option::VALUE_OPTIONAL, 'force override', false)
             ->setDescription('New installation of TwelveT');
     }
 
