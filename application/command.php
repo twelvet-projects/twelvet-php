@@ -11,5 +11,4 @@
 
 return [
   'app\admin\command\Install',
-  ];
-  
+];
