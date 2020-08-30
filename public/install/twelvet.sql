@@ -1,5 +1,5 @@
-# Host: localhost  (Version 5.6.44-log)
-# Date: 2020-01-13 22:25:22
+﻿# Host: localhost  (Version 5.6.44-log)
+# Date: 2020-08-30 17:38:24
 # Generator: MySQL-Front 6.1  (Build 1.26)
 
 
@@ -31,7 +31,7 @@ CREATE TABLE `tl_admin` (
 # Data for table "tl_admin"
 #
 
-INSERT INTO `tl_admin` VALUES (1,'admin','Admin','993afaaef9a0424f2f55d6d142dc8e4b','3f3506', '2471835953@qq.com', 'bb645bfc-bb0e-4cfe-af28-fcab708d704f',1578833594,0,1567780884,1578833594,'normal');
+INSERT INTO `tl_admin` VALUES (1,'admin','Admin','c4ed63657032605738e84141c9211bb0','73518c','admin@admin.com','c2b674af-72ff-40ff-a7d5-1053f93d618d',1591246817,0,1567780884,1591246817,'normal');
 
 #
 # Structure for table "tl_admin_log"
@@ -50,12 +50,13 @@ CREATE TABLE `tl_admin_log` (
   `createtime` int(10) DEFAULT NULL COMMENT '操作时间',
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=243 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='管理员日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=249 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='管理员日志表';
 
 #
 # Data for table "tl_admin_log"
 #
 
+INSERT INTO `tl_admin_log` VALUES (243,1,'admin','/wbd7oUgiyE.php','登录','{\"username\":\"admin\",\"token\":\"84bc26452c7417dfc2e67b471e13d812\",\"captcha\":\"\"}','120.239.40.12','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0',1581249108),(244,1,'admin','/wbd7oUgiyE.php','登录','{\"username\":\"admin\",\"token\":\"f2294b97a6b78aab7381f896a08540e3\",\"captcha\":\"\"}','120.239.40.251','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36',1583221015),(245,0,'Unknown','/wbd7oUgiyE.php','登录','{\"username\":\"123\",\"token\":\"16294212064d712569704cbbf39ab77b\",\"captcha\":\"\"}','120.231.61.189','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0',1589627216),(246,0,'Unknown','/wbd7oUgiyE.php','登录','{\"username\":\"2471835953\",\"token\":\"92dbc2b7f72f10ba9eaf261c6b87c64d\",\"captcha\":\"\"}','61.140.234.239','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0',1591246810),(247,0,'Unknown','/wbd7oUgiyE.php','登录','{\"username\":\"2471835953\",\"token\":\"c5665f889caf9bcf97c474cda690444b\",\"captcha\":\"\"}','61.140.234.239','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0',1591246815),(248,1,'admin','/wbd7oUgiyE.php','登录','{\"username\":\"admin\",\"token\":\"e8b548c703da7dae4a02f9ed983c0a57\",\"captcha\":\"\"}','61.140.234.239','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0',1591246817);
 
 #
 # Structure for table "tl_auth_group"
@@ -121,7 +122,7 @@ CREATE TABLE `tl_auth_rule` (
   UNIQUE KEY `name` (`name`) USING BTREE,
   KEY `pid` (`pid`),
   KEY `weigh` (`weigh`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='节点表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='节点表';
 
 #
 # Data for table "tl_auth_rule"
@@ -152,4 +153,9 @@ CREATE TABLE `tl_user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `nickname` (`nickname`),
   UNIQUE KEY `token` (`token`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# Data for table "tl_user"
+#
+
